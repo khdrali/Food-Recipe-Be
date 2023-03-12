@@ -36,7 +36,6 @@ const validateCreate = (req, res, next) => {
 
 const validateCreateRecipe = (req, res, next) => {
   addCustomMessages({
-    "photo.required": "photo wajib diisi",
     "title.required": "title wajib diisi",
     "title.min.length": "title terlalu pendek",
     "ingredients.required": "ingredients harus diisi",
@@ -44,7 +43,6 @@ const validateCreateRecipe = (req, res, next) => {
   });
 
   const rules = new Validator(req.body, {
-    photo: "required",
     title: "required|minLength:1|maxLength:50",
     ingredients: "required|minLength:5",
   });

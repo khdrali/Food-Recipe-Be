@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const fileUpload = require("express-fileupload");
 const path = require("path");
-const port = 8080;
+const port = 3005;
 const recipeRoutes = require("./routes/recipes");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
@@ -22,7 +22,7 @@ app.use(
   })
 );
 app.use("/images", express.static(path.join(__dirname, "public")));
-// app.use(cors());
+app.use(cors());
 app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/auth", authRoutes);
