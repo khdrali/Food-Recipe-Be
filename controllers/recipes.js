@@ -80,6 +80,10 @@ const createRecipes = async (req, res) => {
   try {
     const { title, ingredients, video } = req.body;
     let file = req.files.photo;
+
+    if (!file) {
+      throw "Photo tidak boleh kosong";
+    }
     // let fileName = `${uuidv4()}-${file.name}`
     // let uploadPath = `${path.dirname(require.main.filename)}/public/${fileName}`
     let mimeType = file.mimetype.split("/")[1];
@@ -100,7 +104,7 @@ const createRecipes = async (req, res) => {
           }
 
           const addRecipe = await recipe.createRecipe({
-            photo: result.url,
+            photo: result?.url,
             title,
             ingredients,
             video,
