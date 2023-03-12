@@ -24,10 +24,17 @@ const getAllUser = async (params) => {
 //CreateUser
 const createUser = async (params) => {
   const { username, email, password, phone, photo } = params;
-  return await db`
-    INSERT INTO account (username, email, password, phone, photo) 
-    VALUES (${username}, ${email}, ${password}, ${phone}, ${photo})
+  if (!photo) {
+    return await db`
+    INSERT INTO account (username, email, password, phone) 
+    VALUES (${username}, ${email}, ${password}, ${phone})
   `;
+  } else {
+    return await db`
+      INSERT INTO account (username, email, password, phone, photo) 
+      VALUES (${username}, ${email}, ${password}, ${phone}, ${photo})
+    `;
+  }
 };
 
 //Update user

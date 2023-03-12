@@ -70,14 +70,16 @@ const getUser = async (req, res) => {
 const createUsers = async (req, res) => {
   try {
     const { username, email, phone, password } = req.body;
-    console.log(req.body);
     const duplicateEmail = await account.getUserByEmail({ email });
     if (duplicateEmail.length >= 1) {
       throw { code: 401, message: "Email telah terdaftar" };
     }
 
-    let file = req.files.photo;
-    if (file) {
+    console.log(req.files);
+
+    let fileResult;
+    if (req.files && req.files.photo) {
+      let file = req.files.photo;
       let fileName = `${uuidv4()}-${file.name}`;
       let uploadPath = `${path.dirname(
         require.main.filename
@@ -97,12 +99,14 @@ const createUsers = async (req, res) => {
           function (error, result) {
             if (error) {
               throw "Upload foto gagal";
+            } else {
+              fileResult = result.url;
             }
           }
         );
+      } else {
+        throw "Upload foto gagal, Format tidak sesuai";
       }
-    } else {
-      throw "Upload foto gagal, Format tidak sesuai";
     }
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       if (err) {
@@ -115,7 +119,7 @@ const createUsers = async (req, res) => {
         email,
         phone,
         password: hash,
-        photo: result.url ?? null,
+        photo: fileResult,
       });
 
       res.json({
