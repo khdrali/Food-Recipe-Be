@@ -14,29 +14,34 @@ const getRecipes = async (req, res) => {
         count: getSelectedRecipe?.length,
         data: getSelectedRecipe,
       });
-      //  const { by, type, limit, page } = req.query;
+    } else {
+      const getAllRecipe = await recipe.getAllRecipes();
+      res.status(200).json({
+        status: true,
+        message: "data berhasil di tampilkan",
+        count: getAllRecipe?.length,
+        data: getAllRecipe,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: error?.message ?? error,
+      data: [],
+    });
+  }
+};
 
-      //   if (by) {
-
-      // res.status(200).json({
-      //   status: true,
-      //   message: 'data berhasil di tampilkan',
-      //   count: getSelectedRecipe?.length,
-      //   data: getSelectedRecipe,
-      //  });
-      //   } else if (by === 'date') {
-      //     const getSelectedRecipe = await recipe.getRecipeByName({
-      //       by,
-      //       type,
-      //       limit,
-      //       page,
-      //     });
-      //     res.status(200).json({
-      //       status: true,
-      //       message: 'data berhasil di tampilkan',
-      //       count: getSelectedRecipe?.length,
-      //       data: getSelectedRecipe,
-      //     });
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (id) {
+      const recipeById = await recipe.recipeById({ id });
+      res.status(200).json({
+        status: true,
+        message: "data berhasil di tampilkan",
+        data: recipeById,
+      });
     } else {
       const getAllRecipe = await recipe.getAllRecipes();
       res.status(200).json({
@@ -252,4 +257,5 @@ module.exports = {
   deleteRecipes,
   searchRecipes,
   getRecipePagination,
+  getRecipeById,
 };
