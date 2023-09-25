@@ -11,6 +11,7 @@ const recipeRoutes = require("./routes/recipes");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(xss());
@@ -22,7 +23,6 @@ app.use(
   })
 );
 app.use("/images", express.static(path.join(__dirname, "public")));
-app.use(cors());
 app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/auth", authRoutes);
