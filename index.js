@@ -11,14 +11,7 @@ const recipeRoutes = require("./routes/recipes");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://food-recipe-react-six.vercel.app/"],
-    credentials: true,
-    exposedHeaders: ["Set-Cookie"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(xss());
