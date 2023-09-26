@@ -16,28 +16,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(xss());
 app.use(helmet());
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}));
 app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: "/tmp/",
   })
 );
-// app.use(cors());
-app.use(async (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization, simandesk_token'
-    );
-    if (req.method === 'OPTIONS') {
-        res.header(
-            'Access-Control-Allow-Methods',
-            'PUT, POST, PATCH, DELETE, GET'
-        );
-        return res.status(200).json({});
-    }
-    next();
-});
 
 app.use("/images", express.static(path.join(__dirname, "public")));
 app.use("/users", userRoutes);
