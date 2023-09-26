@@ -23,12 +23,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(xss());
 app.use(helmet());
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}));
 app.use(
   fileUpload({
     useTempFiles: true,
     tempFileDir: "/tmp/",
   })
 );
+
 app.use("/images", express.static(path.join(__dirname, "public")));
 app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes);
