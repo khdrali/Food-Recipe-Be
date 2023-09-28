@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express(); // inisialisasi
 const bodyParser = require("body-parser");
-// const cors = require("cors");
+const cors = require("cors");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const fileUpload = require("express-fileupload");
@@ -19,6 +19,7 @@ const authRoutes = require("./routes/auth");
 //     allowedHeaders: ["Content-Type", "Authorization","Access-Control-Allow-Origin"],
 //   })
 // );
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(xss());
